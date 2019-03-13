@@ -1,0 +1,39 @@
+# Playbook file
+
+-
+  name: Stop services on web_srvs
+  hosts: web_nodes
+  tasks:
+    -
+     name: stop db services task
+     command: service httpd stop
+
+-
+  name: Stop DB services
+  hosts: db_nodes
+  tasks:
+    -
+     name: Stop DB services task
+     command: service mysql stop
+
+-
+  name: restart servers
+  hosts: all_nodes
+  tasks:
+    -
+     name: reboot servers
+     command: /sbin/shutdown -r
+-
+  name: Start DB services
+  hosts: db_nodes
+  tasks:
+    -
+     name: Start DB services task
+     command: service mysql start
+-
+  name: Start services on web_srvs
+  hosts: web_nodes
+  tasks:
+    -
+     name: start db services task
+     command: service httpd start
