@@ -1,0 +1,21 @@
+-
+  name: Add name server entry if not already entered
+  hosts: localhost
+  vars:
+    age: 25
+  tasks:
+    -
+      shell: cat /etc/resolv.conf
+      register: command_output
+    -
+      shell: echo "nameserver 10.0.250.10" >> /etc/resolv.conf
+      when: command_output.stdout.find("10.0.250.10") == -1
+    -
+      command: echo "I am a Child"
+      when: age<18
+    -
+      command: echo "I am an Adult"
+      when: age>=18
+    -
+      service: name=mysql state=started
+      when: ansible_host=="server4.company.com"
